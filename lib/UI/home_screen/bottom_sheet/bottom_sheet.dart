@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddBottomSheet extends StatefulWidget {
@@ -7,6 +8,8 @@ class AddBottomSheet extends StatefulWidget {
 
 class _AddBottomSheetState extends State<AddBottomSheet> {
   DateTime selectedDate = DateTime.now();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,6 +24,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
           SizedBox(height: 12),
           Container(
             child: TextField(
+              controller: titleController,
               decoration: InputDecoration(
                   labelText: 'Enter your task',
                   labelStyle: Theme.of(context).textTheme.bodyMedium),
@@ -28,10 +32,10 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
           ),
           SizedBox(height: 12),
           TextField(
-            decoration: InputDecoration(
-                labelStyle: Theme.of(context).textTheme.bodyMedium,
-                labelText: 'Enter yourtask description'),
-          ),
+              decoration: InputDecoration(
+                  labelStyle: Theme.of(context).textTheme.bodyMedium,
+                  labelText: 'Enter your task description'),
+              controller: descriptionController),
           SizedBox(height: 12),
           Text(
             textAlign: TextAlign.start,
@@ -51,7 +55,11 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
             ),
           ),
           Spacer(),
-          ElevatedButton(onPressed: () {}, child: Text("Add"))
+          ElevatedButton(
+              onPressed: () {
+                onAddPressed();
+              },
+              child: Text("Add"))
         ],
       ),
     );
@@ -65,5 +73,22 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
             lastDate: DateTime.now().add(Duration(days: 365))) ??
         selectedDate;
     setState(() {});
+  }
+
+  void onAddPressed() {
+    CollectionReference todos = FirebaseFirestore.instance.collection('todos');
+    DocumentReference doc = todos.doc();
+    doc.set({
+      "id": doc.id,
+      "title": titleController.text,
+      "description": descriptionController.text,
+      "isDone": false,
+      "datetime": selectedDate.millisecondsSinceEpoch
+    }).timeout(
+      Duration(milliseconds: 500),
+      onTimeout: () {
+        Navigator.pop(context);
+      },
+    );
   }
 }
