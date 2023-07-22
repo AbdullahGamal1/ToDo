@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:to_do_app/UI/home_screen/home_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:to_do_app/UI/theme/my_theme_data.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/screens/home_screen/home_screen.dart';
+import 'package:to_do_app/screens/theme/my_theme_data.dart';
+
 import 'firebase_options.dart';
-import 'UI/register_Screen/register_screen.dart';
+import 'provider/list_provider.dart';
+import 'screens/register_Screen/register_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +16,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseFirestore.instance.disableNetwork();
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => ListProvider(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
