@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/UI/components/custom_form_field.dart';
+import 'package:to_do_app/screens/components/custom_form_field.dart';
 
 class RegisterScreen extends StatelessWidget {
   static const String routname = "RegisterScreen";

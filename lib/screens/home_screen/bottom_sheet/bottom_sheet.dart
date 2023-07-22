@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/provider/list_provider.dart';
 
 class AddBottomSheet extends StatefulWidget {
   @override
@@ -10,8 +12,11 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   DateTime selectedDate = DateTime.now();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  late ListProvider provider;
+
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: Column(
@@ -84,11 +89,10 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
       "description": descriptionController.text,
       "isDone": false,
       "datetime": selectedDate.millisecondsSinceEpoch
-    }).timeout(
-      Duration(milliseconds: 500),
-      onTimeout: () {
-        Navigator.pop(context);
-      },
-    );
+    }).timeout(Duration(milliseconds: 500), onTimeout: () {
+      provider.refreshTodosFromFireStore();
+
+      Navigator.pop(context);
+    });
   }
 }

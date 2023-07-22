@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/UI/home_screen/bottom_sheet/bottom_sheet.dart';
-import 'package:to_do_app/UI/home_screen/tabs/list_tabs/list_tab.dart';
-import 'package:to_do_app/UI/home_screen/tabs/settings/setting_tab.dart';
-import 'package:to_do_app/UI/theme/app_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/provider/list_provider.dart';
+import 'package:to_do_app/screens/home_screen/bottom_sheet/bottom_sheet.dart';
+import 'package:to_do_app/screens/home_screen/tabs/list_tabs/list_tab.dart';
+import 'package:to_do_app/screens/home_screen/tabs/settings/setting_tab.dart';
+import 'package:to_do_app/screens/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routname = "HomeScreen";
