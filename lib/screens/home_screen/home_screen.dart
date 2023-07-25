@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:to_do_app/provider/list_provider.dart';
 import 'package:to_do_app/screens/home_screen/bottom_sheet/bottom_sheet.dart';
 import 'package:to_do_app/screens/home_screen/tabs/list_tabs/list_tab.dart';
 import 'package:to_do_app/screens/home_screen/tabs/settings/setting_tab.dart';
@@ -15,12 +13,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentTab = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('To Do List'),
-        toolbarHeight: MediaQuery.of(context).size.height * .20,
+        toolbarHeight: MediaQuery.of(context).size.height * .1,
       ),
       body: currentTab == 0 ? ListTab() : SettingTab(),
       floatingActionButton: FloatingActionButton(

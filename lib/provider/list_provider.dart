@@ -5,9 +5,11 @@ import '../model/todo_dm.dart';
 
 class ListProvider extends ChangeNotifier {
   List<ToDoDM> todosList = [];
+  DateTime selectedDate = DateTime.now();
+
   refreshTodosFromFireStore() {
     var todosCollection = FirebaseFirestore.instance.collection("todos");
-    // .then : wait datafrom firestore
+
     todosCollection.get().then((querySnapShot) {
       todosList = querySnapShot.docs.map((documentSnapShot) {
         var json = documentSnapShot.data();
@@ -16,9 +18,21 @@ class ListProvider extends ChangeNotifier {
             title: json["title"],
             description: json["description"],
             isDone: json["isDone"],
-            date: DateTime.fromMicrosecondsSinceEpoch(json["datetime"]));
+            date: DateTime.fromMillisecondsSinceEpoch(json["datetime"]));
       }).toList();
+      todosList = todosList.where((todo) {
+        if (todo.date.day == selectedDate.day &&
+            todo.date.month == selectedDate.month &&
+            todo.date.year == selectedDate.year) {
+          return true;
+        } else {
+          return false;
+        }
+      }).toList();
+
       notifyListeners();
     });
   }
 }
+
+// .then : wait datafrom firestore

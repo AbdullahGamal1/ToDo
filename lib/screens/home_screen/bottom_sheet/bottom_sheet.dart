@@ -17,8 +17,8 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of(context);
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
