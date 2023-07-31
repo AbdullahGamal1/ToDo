@@ -1,27 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_app/screens/components/custom_form_field.dart';
-import 'package:to_do_app/screens/dialog_utlis.dart';
-import 'package:to_do_app/screens/login/login.dart';
+import 'package:to_do_app/screens/register_Screen/register_screen.dart';
 
-class RegisterScreen extends StatefulWidget {
-  static const String routname = "RegisterScreen";
+import '../dialog_utlis.dart';
+
+class LoginScreen extends StatefulWidget {
+  static const String routeName = 'LoginScreen';
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   var formKey = GlobalKey<FormState>();
 
-  var nemeControler = TextEditingController(text: "abdullah gamal");
+  var emaiLoginlControler = TextEditingController();
 
-  var emailControler =
-      TextEditingController(text: "abdullah.gamal97@gmail.com");
-
-  var passwordControler = TextEditingController(text: '12345678');
-
-  var confirmPasswordControler = TextEditingController(text: '12345678');
+  var passwordLoginControler = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            'Register Screen',
+            'Login Screen',
           ),
         ),
         body: SingleChildScrollView(
@@ -54,16 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: MediaQuery.of(context).size.height * .25,
                     ),
                     CustomFormField(
-                      controller: nemeControler,
-                      lable: 'Full Name ',
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return "Please Enter Full Name";
-                        }
-                      },
-                    ),
-                    CustomFormField(
-                        controller: emailControler,
+                        controller: emaiLoginlControler,
                         lable: ' Email Adress ',
                         keyboardType: TextInputType.emailAddress,
                         validator: (text) {
@@ -77,7 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
                         }),
                     CustomFormField(
-                        controller: passwordControler,
+                        controller: passwordLoginControler,
                         lable: 'Password',
                         isPassword: true,
                         validator: (text) {
@@ -88,25 +75,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return "Password shoud at least 6 char  ";
                           }
                         }),
-                    CustomFormField(
-                      controller: confirmPasswordControler,
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return "Please Confirm Your Pssword";
-                        }
-                        if (text != passwordControler.text) {
-                          return "Password dosn't match  ";
-                        }
-                      },
-                      lable: ' Confirm Password  ',
-                      isPassword: true,
-                    ),
                     ElevatedButton(
                         onPressed: () {
-                          register();
+                          login();
                         },
                         child: Text(
-                          'Register',
+                          'Login',
                           style: TextStyle(fontSize: 24),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -114,9 +88,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(
-                            context, LoginScreen.routeName);
+                            context, RegisterScreen.routname);
                       },
-                      child: Text('Have Account'),
+                      child: Text('Dont Have Account'),
                     )
                   ]),
             ),
@@ -126,24 +100,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  void isValidate() {
+    formKey.currentState?.validate();
+  }
+
   FirebaseAuth authServics = FirebaseAuth.instance;
 
-  void register() async {
+  void login() async {
     if (formKey.currentState?.validate() == false) {
       return;
     }
 
     try {
-      var result = await authServics.createUserWithEmailAndPassword(
-          email: emailControler.text, password: passwordControler.text);
-      DialogUtlis.showMessage(context, "Successful Registeration");
+      var result = await authServics.signInWithEmailAndPassword(
+          email: emaiLoginlControler.text,
+          password: passwordLoginControler.text);
+      DialogUtlis.showMessage(context, "Successful Registeration",
+          postiveActionName: "OK");
     } on FirebaseAuthException catch (e) {
-      String errorMessage = 'Somthing went wrong.';
-      if (e.code == 'weak-password') {
-        errorMessage = 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        errorMessage = 'email-already-in-use';
-      }
+      String errorMessage = 'Wrong Email Or Password. ';
       DialogUtlis.showMessage(context, errorMessage, postiveActionName: "OK");
     } catch (e) {
       DialogUtlis.hideLoadingDialog(context);
@@ -153,15 +128,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         errorMessage,
         postiveActionName: "Try Again",
         postiveAction: () {
-          register();
+          login();
         },
       );
     }
   }
 }
-// var formKey = GlobalKey<FormState>();
-//wrap Coulmn Witt Form  and give it this key
-
-//  void register(){
-//     formKey.currentState?.validate();
-//   }

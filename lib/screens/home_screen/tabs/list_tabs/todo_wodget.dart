@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/model/todo_dm.dart';
 import 'package:to_do_app/provider/list_provider.dart';
 import 'package:to_do_app/screens/theme/app_colors.dart';
+
+import '../../../../database/model/todo_dm.dart';
 
 class ToDo extends StatelessWidget {
   ToDoDM todo;

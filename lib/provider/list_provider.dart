@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../model/todo_dm.dart';
+import '../database/model/todo_dm.dart';
 
 class ListProvider extends ChangeNotifier {
   List<ToDoDM> todosList = [];
