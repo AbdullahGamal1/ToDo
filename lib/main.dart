@@ -3,8 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/screens/home_screen/home_screen.dart';
+import 'package:to_do_app/screens/login/login.dart';
 import 'package:to_do_app/screens/theme/my_theme_data.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'provider/list_provider.dart';
 import 'screens/register_Screen/register_screen.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       initialRoute: HomeScreen.routname,
       routes: {
+        LoginScreen.routeName: (context) => LoginScreen(),
         HomeScreen.routname: (context) => HomeScreen(),
         RegisterScreen.routname: (context) => RegisterScreen()
       },

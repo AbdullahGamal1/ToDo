@@ -41,11 +41,12 @@ dependencies:
     sdk: flutter
   intl: any
   provider: ^6.0.5
-  firebase_auth: ^4.6.3
-  firebase_core: ^2.14.0
-  cloud_firestore: ^4.8.2
+  firebase_auth: ^4.7.1
+  firebase_core: ^2.15.0
+  cloud_firestore: ^4.8.4
   flutter_swipe_action_cell: ^3.1.2
   calendar_timeline: ^1.1.2
+  firebase_app_check: ^0.1.5+1
 
 
 dev_dependencies:
